@@ -62,6 +62,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\DrinksService.cs" />
+    <Compile Include="Services\MoneyUnitPool.cs" />
     <Compile Include="Windows\TopUpBalanceWindow.xaml.cs">
       <DependentUpon>TopUpBalanceWindow.xaml</DependentUpon>
     </Compile>
