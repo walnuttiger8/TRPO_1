@@ -66,11 +66,11 @@ namespace TRPO_1
             InitializeProducts(new ObservableCollection<Product>(_availableProducts));
         }
 
-        private void ApplyDiscount()
+        private async void ApplyDiscount()
         {
             if (_discountApplied)
             {
-                MessageBox.Show("Скидка уже использована");
+                await FlushMessage("Скидка уже использована");
                 return;
             }
             var productsWithDiscountedPrice = GetProducts();
@@ -91,17 +91,23 @@ namespace TRPO_1
             _drinksService.TopUp(unit);
         }
 
-        private void BuyProduct(Product product)
+        private async void BuyProduct(Product product)
         {
-            var success = _drinksService.Buy(product);
-            
-            if (!success)
+            try
             {
-                MessageBox.Show("Недостаточно средств");
-                
+                _drinksService.Buy(product);
+            }
+            catch (AfricanException)
+            {
+                await FlushMessage("Недостаточно воды");
                 return;
             }
-            
+            catch (RussianException)
+            {
+                await FlushMessage("Недостаточно средств");
+                return;
+            }
+
             var thankYou = new ThankYouWindow(this, product);
 
             IsEnabled = false;
@@ -201,6 +207,12 @@ namespace TRPO_1
                 result.Add(product.Clone());
             }
             return result;
+        }
+
+        private void managerKeyButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new MonitoringWindow(_drinksService);
+            window.Show();
         }
     }
 }

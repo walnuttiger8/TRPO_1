@@ -4,12 +4,40 @@ using TRPO_1.Models;
 
 namespace TRPO_1.Services
 {
+    public class AfricanException : Exception { }
+    public class RussianException : Exception { }
+
     public class DrinksService
     {
+        private const int _minAvailableVolume = 10;
+        private const int _maxAvailableVolume = 50;
+
         public delegate void BalanceChange(int prevValue, int currentValue);
         public event BalanceChange BalanceChanged;
 
+        public delegate void VolumeChange(float prevValue, float currentValue);
+        public event VolumeChange VolumeChanged;
+
         public int Balance { get; set; } = 0;
+        public float ServiceBalance
+        {
+            get { return _serviceWallet.Balance; }
+        }
+        public float MaxVolume
+        {
+            get
+            {
+                return _maxAvailableVolume;
+            }
+        }
+        public float MinVolume
+        {
+            get
+            {
+                return _minAvailableVolume;
+            }
+        }
+        public float Volume { get; set; } = 0;
         private Wallet _serviceWallet = new Wallet();
 
         public DrinksService()
@@ -19,6 +47,7 @@ namespace TRPO_1.Services
             {
                 _serviceWallet.TopUp(_moneyUnitPool.Get());
             }
+            InitializeVolume();
         }
 
         public void TopUp(MoneyUnit moneyUnit)
@@ -29,12 +58,17 @@ namespace TRPO_1.Services
         
         public bool Buy(Product product)
         {
-            if (Balance >= product.Price)
+            if (Volume < product.Volume)
             {
-                SetBalance(Balance - (int)product.Price);
-                return true;
+                throw new AfricanException();
             }
-            return false;
+            if (Balance < product.Price)
+            {
+                throw new RussianException();
+            }
+            SetBalance(Balance - (int)product.Price);
+            SetVolume(Volume - product.Volume);
+            return true;
         }
 
         public List<MoneyUnit> GetChange()
@@ -56,7 +90,31 @@ namespace TRPO_1.Services
             var prevValue = Balance;
             Balance = value;
 
-            BalanceChanged(prevValue, Balance);
+            if (BalanceChanged != null)
+            {
+                BalanceChanged(prevValue, Balance);
+            }
+        }
+
+        private void SetVolume(float value)
+        {
+            if (value < _minAvailableVolume)
+            {
+                throw new ArgumentException();
+            }
+            var prevValue = Volume;
+            Volume = value;
+
+            if (VolumeChanged != null)
+            {
+                VolumeChanged(prevValue, Volume);
+            }
+        }
+
+        private void InitializeVolume()
+        {
+            var random = new Random();
+            SetVolume(random.Next(_minAvailableVolume, _maxAvailableVolume));
         }
     }
 }

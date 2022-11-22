@@ -8,6 +8,8 @@ namespace TRPO_1.Models
     {
         public string Name { get; set; }
         public float Price { get; set; }
+
+        public float Volume { get; set; } = 0.33f;
         
         public Bitmap Image { get; set; }
 

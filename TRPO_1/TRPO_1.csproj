@@ -69,6 +69,9 @@
     <Compile Include="Windows\LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MonitoringWindow.xaml.cs">
+      <DependentUpon>MonitoringWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ThankYouWindow.xaml.cs">
       <DependentUpon>ThankYouWindow.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MonitoringWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

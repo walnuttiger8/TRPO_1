@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TRPO_1.Windows"
         mc:Ignorable="d"
         Title="Взлом КАЗИНО" Height="250" Width="400"
-        Icon="../Resources/ico_777.png">
+        Icon="../Resources/ico_777.png"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="16"/>

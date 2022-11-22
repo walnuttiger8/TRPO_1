@@ -1,0 +1,42 @@
+﻿<Window x:Class="TRPO_1.Windows.MonitoringWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TRPO_1.Windows"
+        mc:Ignorable="d"
+        Title="MonitoringWindow" Height="450" Width="800"
+        ContentRendered="Window_ContentRendered">
+    <Window.Resources>
+        <Style x:Key="valueStackPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <Style x:Key="valueLabelTextBlock" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0 0 20 0"/>
+            <Setter Property="Width" Value="100"/>
+        </Style>
+        <Style x:Key="valueTextBlock" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <StackPanel Style="{StaticResource valueStackPanel}">
+                <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Количество воды:"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="volumeTextBlock" Text="0" FontWeight="Bold"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" Text=" литров"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource valueStackPanel}">
+                <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Баланс пользователя:"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="userBalanceTextBlock" Text="0" FontWeight="Bold"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" Text=" рублей"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource valueStackPanel}">
+                <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Баланс системы:"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="serviceBalanceTextBlock" Text="0" FontWeight="Bold"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" Text=" рублей"/>
+            </StackPanel>
+            <ProgressBar x:Name="volumeProgressBar" Width="50" Height="100" Foreground="Blue" Value="10" Orientation="Vertical"/>
+        </StackPanel>
+    </Grid>
+</Window>
