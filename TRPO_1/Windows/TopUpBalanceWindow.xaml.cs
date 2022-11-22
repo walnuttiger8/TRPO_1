@@ -35,6 +35,8 @@ namespace TRPO_1.Windows
 
         public TopUpBalanceWindow()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
             InitializeComponent();
 
             moneyUnitsListView.ItemsSource = _moneyUnits;

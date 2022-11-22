@@ -32,11 +32,11 @@ namespace TRPO_1
 
         private readonly List<Product> _availableProducts = new List<Product>()
         {
-            new Product() { Name="Экспрессо", Price=40f },
-            new Product() { Name="Капучино", Price=60f },
-            new Product() { Name="Американо", Price=50f },
-            new Product() { Name="Чай", Price=40f },
-            new Product() { Name="Горчий компот", Price=19f },
+            new Product() { Name="Экспрессо", Price=40f, Image = Resource.espresso},
+            new Product() { Name="Капучино", Price=60f, Image = Resource.cappuccino},
+            new Product() { Name="Американо", Price=50f, Image = Resource.americano},
+            new Product() { Name="Чай", Price=40f, Image = Resource.tea},
+            new Product() { Name="Горчий компот", Price=19f, Image = Resource.cumpot},
         };
         #endregion
 
@@ -45,6 +45,8 @@ namespace TRPO_1
         #endregion
         public MainWindow()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
             InitializeComponent();
             InitializeProducts();
 
@@ -92,11 +94,19 @@ namespace TRPO_1
         private void BuyProduct(Product product)
         {
             var success = _drinksService.Buy(product);
+            
             if (!success)
             {
                 MessageBox.Show("Недостаточно средств");
+                
                 return;
             }
+            
+            var thankYou = new ThankYouWindow(this, product);
+
+            IsEnabled = false;
+            thankYou.Show();
+            
             InitializeProducts();
             _discountApplied = false;
         }

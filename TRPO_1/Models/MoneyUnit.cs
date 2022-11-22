@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TRPO_1.Extensions;
 
 namespace TRPO_1.Models
 {
@@ -15,7 +16,7 @@ namespace TRPO_1.Models
     {
         public int Quantity { get; set; }
         public Bitmap Image { get; set; }
-        public ImageSource Source => Imaging.CreateBitmapSourceFromHBitmap(Image.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        public ImageSource Source => Image.ToImageSource();
 
 
         public MoneyUnit Clone()

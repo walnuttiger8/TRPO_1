@@ -29,6 +29,8 @@ namespace TRPO_1.Windows
         private const double _progressDisplayCoeff = 0.00122863d;
         public LoadingWindow()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
             InitializeComponent();
 
             statusMaxValueTextBlock.Text = _maxStatusValue.ToString();

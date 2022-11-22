@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Models\MoneyUnit.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -67,6 +68,9 @@
     <Compile Include="Services\Wallet.cs" />
     <Compile Include="Windows\LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ThankYouWindow.xaml.cs">
+      <DependentUpon>ThankYouWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TopUpBalanceWindow.xaml.cs">
       <DependentUpon>TopUpBalanceWindow.xaml</DependentUpon>
@@ -87,6 +91,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ThankYouWindow.xaml" />
     <Page Include="Windows\TopUpBalanceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,6 +167,13 @@
     <Resource Include="Resources\ico_777.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\products\americano.png" />
+    <Content Include="Resources\products\cappuccino.png" />
+    <Content Include="Resources\products\cumpot.png" />
+    <Content Include="Resources\products\espresso.png" />
+    <Content Include="Resources\products\tea.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
