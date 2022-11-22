@@ -25,8 +25,11 @@ namespace TRPO_1
     public partial class MainWindow : Window
     {
         private DrinksService _drinksService;
+
+        #region Параметры системы
         private const float _discountPercent = 15;
         private const int _flushDelay = 1000;
+
         private readonly List<Product> _availableProducts = new List<Product>()
         {
             new Product() { Name="Экспрессо", Price=40f },
@@ -35,6 +38,7 @@ namespace TRPO_1
             new Product() { Name="Чай", Price=40f },
             new Product() { Name="Горчий компот", Price=19f },
         };
+        #endregion
 
         #region Состояние
         private bool _discountApplied = false;
@@ -139,14 +143,31 @@ namespace TRPO_1
             UpdateBalanceTextBlock();
         }
 
+        private void GetChange()
+        {
+            var change = _drinksService.GetChange();
+
+            if (change != null)
+            {
+                foreach (var unit in change)
+                {
+                    MessageBox.Show(unit.Quantity.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Нет возможности выдать сдачу наличными, введите данные карты для перевода");
+            }
+        }
+
         private void getChangeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            GetChange();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            GetChange();
         }
 
         private void discountButton_Click(object sender, RoutedEventArgs e)
