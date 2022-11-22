@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,9 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Office.Interop.Word;
 using TRPO_1.Models;
 using TRPO_1.Services;
 using TRPO_1.Windows;
+using Task = System.Threading.Tasks.Task;
+using Window = System.Windows.Window;
 
 namespace TRPO_1
 {
@@ -25,6 +28,8 @@ namespace TRPO_1
     public partial class MainWindow : Window
     {
         private DrinksService _drinksService;
+        private MoneyPrinterService _moneyPrinterService = new MoneyPrinterService();
+        
 
         #region Параметры системы
         private const float _discountPercent = 15;
@@ -179,6 +184,7 @@ namespace TRPO_1
         private void getChangeButton_Click(object sender, RoutedEventArgs e)
         {
             GetChange();
+            PrintMoneyChange();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -198,7 +204,7 @@ namespace TRPO_1
                 MessageBox.Show(product.Price.ToString());
             }
         }
-
+        
         private List<Product> GetProducts()
         {
             var result = new List<Product>();
@@ -213,6 +219,28 @@ namespace TRPO_1
         {
             var window = new MonitoringWindow(_drinksService);
             window.Show();
+        }
+
+        private void PrintMoneyChange()
+        {
+            var change = _drinksService.GetChange();
+            
+            PrintMoney("Ваша сдача", "Спасибо за покупку!", change);
+        }
+        
+        private void PrintMoney(string title, string caption, List<MoneyUnit> moneyUnits)
+        {
+            Document document = _moneyPrinterService.PrintMoneyReport(title, caption, moneyUnits);
+
+            string fileName = Directory.GetCurrentDirectory() + $"{Guid.NewGuid()}";
+
+            try
+            {
+                document.ExportAsFixedFormat(fileName, WdExportFormat.wdExportFormatPDF,true, WdExportOptimizeFor.wdExportOptimizeForOnScreen,
+                    WdExportRange.wdExportAllDocument,1,1,WdExportItem.wdExportDocumentContent,true,true,
+                    WdExportCreateBookmarks.wdExportCreateHeadingBookmarks);
+            }
+            catch { }
         }
     }
 }
