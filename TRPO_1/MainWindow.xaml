@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         ResizeMode="NoResize" Background="Red">
+    <Window.Resources>
+        <Style x:Name="ControlButton" TargetType="Button">
+            <Setter Property="Padding" Value="0 15"/>
+            <Setter Property="Margin" Value="5 10"/>
+            <Setter Property="Background" Value="#FF372411"/>
+            <Setter Property="Foreground" Value="BlueViolet"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -41,6 +49,9 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Button x:Name="topUpButton" Content="Пополнить баланс" Click="topUpButton_Click"/>
+            <Button x:Name="buyButton" Content="Купить" Click="buyButton_Click"/>
+            <Button x:Name="getChangeButton" Content="Получить сдачу" Click="getChangeButton_Click"/>
+            <Button x:Name="cancelButton" Content="Отмена" Click="cancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

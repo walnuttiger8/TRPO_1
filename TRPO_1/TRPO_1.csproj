@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Services\DrinksService.cs" />
     <Compile Include="Services\MoneyUnitPool.cs" />
+    <Compile Include="Services\Wallet.cs" />
     <Compile Include="Windows\TopUpBalanceWindow.xaml.cs">
       <DependentUpon>TopUpBalanceWindow.xaml</DependentUpon>
     </Compile>

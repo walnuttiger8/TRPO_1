@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TRPO_1.Models;
+using TRPO_1.Services;
 using TRPO_1.Windows;
 
 namespace TRPO_1
@@ -22,6 +23,7 @@ namespace TRPO_1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DrinksService _drinksService;
         private List<Product> _availableProducts = new List<Product>()
         {
             new Product() { Name="Экспрессо", Price=40f },
@@ -30,20 +32,28 @@ namespace TRPO_1
             new Product() { Name="Чай", Price=40f },
             new Product() { Name="Горчий компот", Price=19f },
         };
-
-        private float _balance = 0.0f;
         public MainWindow()
         {
             InitializeComponent();
 
             availableProductsListView.ItemsSource = _availableProducts;
 
-            UpdateBalanceTextBlock();
+            _drinksService = new DrinksService();
+            _drinksService.BalanceChanged += OnBalanceChanged;
         }
 
         private void TopUpBalance(MoneyUnit unit)
         {
-            _balance += unit.Quantity;
+            _drinksService.TopUp(unit);
+        }
+
+        private void BuyProduct(Product product)
+        {
+            var success = _drinksService.Buy(product);
+            if (!success)
+            {
+                MessageBox.Show("Недостаточно средств");
+            }
         }
 
         private void topUpButton_Click(object sender, RoutedEventArgs e)
@@ -55,14 +65,40 @@ namespace TRPO_1
             {
                 var moneyUnit = window.MoneyUnit;
                 TopUpBalance(moneyUnit);
-
-                UpdateBalanceTextBlock();
             }
+        }
+
+        private void OnBalanceChanged(int prevValue, int value)
+        {
+            UpdateBalanceTextBlock();
         }
 
         private void UpdateBalanceTextBlock()
         {
-            balanceTextBlock.Text = $"Баланс: {_balance} р.";
+            balanceTextBlock.Text = $"Баланс: {_drinksService.Balance} р.";
+        }
+
+        private async void buyButton_Click(object sender, RoutedEventArgs e)
+        {
+            var product = (Product)availableProductsListView.SelectedItem;
+            if (product != null)
+            {
+                BuyProduct(product);
+            }
+            else
+            {
+                balanceTextBlock.Text = "Выберите продукт";
+            } 
+        }
+
+        private void getChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
