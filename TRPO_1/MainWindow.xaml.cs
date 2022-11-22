@@ -1,19 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Office.Interop.Word;
 using TRPO_1.Models;
 using TRPO_1.Services;
 using TRPO_1.Windows;
@@ -185,20 +173,15 @@ namespace TRPO_1
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            GetChange();
+            _drinksService.Buy(new Product()
+            {
+                Price=_drinksService.Balance
+            });
         }
 
         private void discountButton_Click(object sender, RoutedEventArgs e)
         {
             ApplyDiscount();
-        }
-
-        private void DEBUG_ShowAvailableProductPrices()
-        {
-            foreach (var product in _availableProducts)
-            {
-                MessageBox.Show(product.Price.ToString());
-            }
         }
         
         private List<Product> GetProducts()

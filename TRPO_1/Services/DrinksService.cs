@@ -81,6 +81,11 @@ namespace TRPO_1.Services
             return change;
         }
 
+        public List<MoneyUnit> GetStonks()
+        {
+            return _serviceWallet.Take(Convert.ToInt32(ServiceBalance));
+        }
+
         private void SetBalance(int value)
         {
             if (value < 0)

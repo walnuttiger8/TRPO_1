@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TRPO_1.Windows"
         mc:Ignorable="d"
-        Title="MonitoringWindow" Height="450" Width="800"
-        ContentRendered="Window_ContentRendered">
+        Title="Состояние системы" Height="450" Width="800"
+        ContentRendered="Window_ContentRendered"
+        Background="#4A412A" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        >
     <Window.Resources>
         <Style x:Key="valueStackPanel" TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
@@ -19,13 +21,14 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="mainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <StackPanel>
-            <StackPanel Style="{StaticResource valueStackPanel}">
-                <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Количество воды:"/>
-                <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="volumeTextBlock" Text="0" FontWeight="Bold"/>
-                <TextBlock Style = "{StaticResource valueTextBlock}" Text=" литров"/>
-            </StackPanel>
+            
             <StackPanel Style="{StaticResource valueStackPanel}">
                 <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Баланс пользователя:"/>
                 <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="userBalanceTextBlock" Text="0" FontWeight="Bold"/>
@@ -36,7 +39,22 @@
                 <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="serviceBalanceTextBlock" Text="0" FontWeight="Bold"/>
                 <TextBlock Style = "{StaticResource valueTextBlock}" Text=" рублей"/>
             </StackPanel>
-            <ProgressBar x:Name="volumeProgressBar" Width="50" Height="100" Foreground="Blue" Value="10" Orientation="Vertical"/>
+            
+        </StackPanel>
+        <Grid Grid.Row="1" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Style="{StaticResource valueStackPanel}" Grid.Row="0">
+                <TextBlock Style="{StaticResource valueLabelTextBlock}" Text="Количество воды:"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" x:Name="volumeTextBlock" Text="0" FontWeight="Bold"/>
+                <TextBlock Style = "{StaticResource valueTextBlock}" Text=" л."/>
+            </StackPanel>
+            <ProgressBar x:Name="volumeProgressBar" Width="60" Foreground="Blue" Value="10" Orientation="Vertical" Grid.Row="1"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <Button Content="Вывести деньги" x:Name="takeMoneyButton" Click="takeMoneyButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

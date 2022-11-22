@@ -54,5 +54,15 @@ namespace TRPO_1.Windows
         {
             Update();
         }
+
+        private void takeMoneyButton_Click(object sender, RoutedEventArgs e)
+        {
+            MoneyPrinterService moneyPrinterService = new MoneyPrinterService();
+            var cash = drinksService.GetStonks();
+            var document = moneyPrinterService.PrintMoneyReport("", "", cash);
+
+            document.Visible = true;
+            Update();
+        }
     }
 }
