@@ -52,6 +52,13 @@
             <Button x:Name="buyButton" Content="Купить" Click="buyButton_Click"/>
             <Button x:Name="getChangeButton" Content="Получить сдачу" Click="getChangeButton_Click"/>
             <Button x:Name="cancelButton" Content="Отмена" Click="cancelButton_Click"/>
+            <Button x:Name="discountButton" Width="50" Height="50" Background="LightGray" Click="discountButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="50"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

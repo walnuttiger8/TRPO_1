@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,9 @@ namespace TRPO_1
     public partial class MainWindow : Window
     {
         private DrinksService _drinksService;
-        private List<Product> _availableProducts = new List<Product>()
+        private const float _discountPercent = 15;
+        private const int _flushDelay = 1000;
+        private readonly List<Product> _availableProducts = new List<Product>()
         {
             new Product() { Name="Экспрессо", Price=40f },
             new Product() { Name="Капучино", Price=60f },
@@ -32,14 +35,49 @@ namespace TRPO_1
             new Product() { Name="Чай", Price=40f },
             new Product() { Name="Горчий компот", Price=19f },
         };
+
+        #region Состояние
+        private bool _discountApplied = false;
+        #endregion
         public MainWindow()
         {
             InitializeComponent();
-
-            availableProductsListView.ItemsSource = _availableProducts;
+            InitializeProducts();
 
             _drinksService = new DrinksService();
             _drinksService.BalanceChanged += OnBalanceChanged;
+
+            UpdateBalanceTextBlock();
+        }
+
+        private void InitializeProducts(ObservableCollection<Product> products)
+        {
+            availableProductsListView.ItemsSource = products;
+        }
+
+        private void InitializeProducts()
+        {
+            InitializeProducts(new ObservableCollection<Product>(_availableProducts));
+        }
+
+        private void ApplyDiscount()
+        {
+            if (_discountApplied)
+            {
+                MessageBox.Show("Скидка уже использована");
+                return;
+            }
+            var productsWithDiscountedPrice = GetProducts();
+            productsWithDiscountedPrice.ForEach(x => x.Price = CalculatePriceWithDiscount(x.Price, _discountPercent));
+
+            var products = new ObservableCollection<Product>(productsWithDiscountedPrice);
+            InitializeProducts(products);
+            _discountApplied = true;
+        }
+
+        private static float CalculatePriceWithDiscount(float price, float discount)
+        {
+            return Convert.ToInt32(price - (price * (discount / 100)));
         }
 
         private void TopUpBalance(MoneyUnit unit)
@@ -53,7 +91,10 @@ namespace TRPO_1
             if (!success)
             {
                 MessageBox.Show("Недостаточно средств");
+                return;
             }
+            InitializeProducts();
+            _discountApplied = false;
         }
 
         private void topUpButton_Click(object sender, RoutedEventArgs e)
@@ -87,8 +128,15 @@ namespace TRPO_1
             }
             else
             {
-                balanceTextBlock.Text = "Выберите продукт";
-            } 
+                await FlushMessage("Выберите продукт");
+            }
+        }
+
+        private async Task FlushMessage(string message, int delay=_flushDelay)
+        {
+            balanceTextBlock.Text = message;
+            await Task.Delay(delay);
+            UpdateBalanceTextBlock();
         }
 
         private void getChangeButton_Click(object sender, RoutedEventArgs e)
@@ -99,6 +147,29 @@ namespace TRPO_1
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void discountButton_Click(object sender, RoutedEventArgs e)
+        {
+            ApplyDiscount();
+        }
+
+        private void DEBUG_ShowAvailableProductPrices()
+        {
+            foreach (var product in _availableProducts)
+            {
+                MessageBox.Show(product.Price.ToString());
+            }
+        }
+
+        private List<Product> GetProducts()
+        {
+            var result = new List<Product>();
+            foreach (var product in _availableProducts)
+            {
+                result.Add(product.Clone());
+            }
+            return result;
         }
     }
 }
