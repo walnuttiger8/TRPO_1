@@ -170,10 +170,7 @@ namespace TRPO_1
 
             if (change != null)
             {
-                foreach (var unit in change)
-                {
-                    MessageBox.Show(unit.Quantity.ToString());
-                }
+                PrintMoney("Ваша сдача", "Спасибо за покупку!", change);
             }
             else
             {
@@ -184,7 +181,6 @@ namespace TRPO_1
         private void getChangeButton_Click(object sender, RoutedEventArgs e)
         {
             GetChange();
-            PrintMoneyChange();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -220,27 +216,12 @@ namespace TRPO_1
             var window = new MonitoringWindow(_drinksService);
             window.Show();
         }
-
-        private void PrintMoneyChange()
-        {
-            var change = _drinksService.GetChange();
-            
-            PrintMoney("Ваша сдача", "Спасибо за покупку!", change);
-        }
         
         private void PrintMoney(string title, string caption, List<MoneyUnit> moneyUnits)
         {
-            Document document = _moneyPrinterService.PrintMoneyReport(title, caption, moneyUnits);
+            var document = _moneyPrinterService.PrintMoneyReport(title, caption, moneyUnits);
 
-            string fileName = Directory.GetCurrentDirectory() + $"{Guid.NewGuid()}";
-
-            try
-            {
-                document.ExportAsFixedFormat(fileName, WdExportFormat.wdExportFormatPDF,true, WdExportOptimizeFor.wdExportOptimizeForOnScreen,
-                    WdExportRange.wdExportAllDocument,1,1,WdExportItem.wdExportDocumentContent,true,true,
-                    WdExportCreateBookmarks.wdExportCreateHeadingBookmarks);
-            }
-            catch { }
+            document.Visible = true;
         }
     }
 }

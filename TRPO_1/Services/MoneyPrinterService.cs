@@ -12,14 +12,7 @@ namespace TRPO_1.Services
 {
     public class MoneyPrinterService
     {
-        private readonly Word _application;
-
-        public MoneyPrinterService()
-        {
-            _application = new Word();
-        }
-
-        public Document PrintMoneyReport(string title, string caption, List<MoneyUnit> moneyUnits)
+        public Word PrintMoneyReport(string title, string caption, List<MoneyUnit> moneyUnits)
         {
             List<IGrouping<Bitmap, MoneyUnit>> moneyUnitsByNominal = moneyUnits
                 .GroupBy(selector => selector.Image)
@@ -27,8 +20,9 @@ namespace TRPO_1.Services
                 .ToList();
 
             int totalSum = moneyUnits.Sum(money => money.Quantity);
+            var application = new Word();
 
-            Document document = _application.Documents.Add();
+            Document document = application.Documents.Add();
             
             Paragraph titleParagraph = document.Paragraphs.Add();
             
@@ -61,9 +55,7 @@ namespace TRPO_1.Services
             
             document.Words.Last.InsertBreak(WdBreakType.wdSectionBreakNextPage);
 
-            _application.Visible = false;
-
-            return document;
+            return application;
         }
 
         private (string fileName, int width, int height) SaveTemp(Bitmap bitmap)
