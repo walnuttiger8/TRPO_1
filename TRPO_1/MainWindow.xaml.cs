@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+# Copyright:	    Публично доступно для списывания
+# Назвнаие файла:	MainWindow.xaml.cms
+# Назнчение:	    Для сдачи лабораторной работы по предмету 
+#                   Технологии разработки программного обеспечения
+# CS:	            .NET Framework v.4.7.2
+# Контакты:	        Шарипов Булат Альбертович (bulatsharipov240@gmail.com)
+#                   Абрамов Олег Николаевич (rufus116rus@gmail.com)
+# Website:	        bb.kai.ru
+# История изменений:2022-11 - Первая версия продукта
+#
+*/
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
