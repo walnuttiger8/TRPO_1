@@ -1,0 +1,46 @@
+﻿<Window x:Class="TRPO_1.Windows.LoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TRPO_1.Windows"
+        mc:Ignorable="d"
+        Title="Взлом КАЗИНО" Height="250" Width="400"
+        Icon="../Resources/ico_777.png">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style x:Key="textStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Style="{StaticResource textStackPanelStyle}">
+            <StackPanel Orientation="Horizontal" Style="{StaticResource textStackPanelStyle}">
+                <TextBlock Text="Казино взломано на "/>
+                <TextBlock x:Name="statusPercentTextBlock" Text="0" FontWeight="Bold"/>
+                <TextBlock Text="%."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Style="{StaticResource textStackPanelStyle}">
+                <TextBlock Text="Выкачано"/>
+                <TextBlock Text="0" x:Name="statusValueTextBlock" Margin="5 0" FontWeight="Bold"/>
+                <TextBlock Text="руб. из" Margin="5 0"/>
+                <TextBlock Text="0" x:Name="statusMaxValueTextBlock" FontWeight="Bold"/>
+                <TextBlock Text="руб." Margin="5 0"/>
+            </StackPanel>
+            <TextBlock x:Name="continueTextBlock" Text="Продолжить?" HorizontalAlignment="Center" Margin="0 10" Visibility="Hidden"/>
+        </StackPanel>
+        <ProgressBar x:Name="statusProgressBar" Width="250" Height="20" Grid.Row="1" Minimum="0" Maximum="100" Value="0" Foreground="Red"/>
+        <StackPanel x:Name="controlButtonStackPanel" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <Button x:Name="continueButton" Height="25" Width="60" Margin="0 0 100 0" Content="Да" Click="continueButton_Click"/>
+            <Button x:Name="cancelButton" Height="25" Width="60" Content="Нет" Click="cancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
